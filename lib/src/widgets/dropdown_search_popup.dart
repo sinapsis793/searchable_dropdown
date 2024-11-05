@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dropdown_search/src/widgets/custom_inkwell.dart';
 import 'package:flutter/foundation.dart';
@@ -287,11 +288,32 @@ class DropdownSearchPopupState<T> extends State<DropdownSearchPopup<T>> {
 
     Widget defaultValidation = Padding(
       padding: EdgeInsets.all(8),
-      child: Align(
-        alignment: Alignment.centerRight,
+      child: Container(
+        width: double.infinity,
+        height: 45,
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              side: BorderSide(
+                color: Colors.white,
+                width: 2,
+              ),
+              backgroundColor: const Color(0xFF3E4249),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              )),
           onPressed: onValidate,
-          child: Text("OK"),
+          child: Text(
+            Platform.localeName.toString().contains("tr")
+                ? "Kaydet"
+                : Platform.localeName.toString().contains("de")
+                    ? "Speichern"
+                    : "Save",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
@@ -311,7 +333,11 @@ class DropdownSearchPopupState<T> extends State<DropdownSearchPopup<T>> {
     return Container(
       height: 70,
       alignment: Alignment.center,
-      child: Text("No data found"),
+      child: Text(Platform.localeName.toString().contains("tr")
+          ? "Bulunamadı!"
+          : Platform.localeName.toString().contains("de")
+              ? "Nicht gefunden!"
+              : "Not found!"),
     );
   }
 
@@ -505,7 +531,8 @@ class DropdownSearchPopupState<T> extends State<DropdownSearchPopup<T>> {
     }
   }
 
-  bool _isDisabled(T item) => widget.popupProps.disabledItemFn?.call(item) == true;
+  bool _isDisabled(T item) =>
+      widget.popupProps.disabledItemFn?.call(item) == true;
 
   /// selected item will be highlighted only when [widget.showSelectedItems] is true,
   /// if our object is String [widget.compareFn] is not required , other wises it's required

@@ -54,16 +54,23 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
       child: ValueListenableBuilder(
         valueListenable: isCheckedNotifier,
         builder: (ctx, bool v, w) {
-          var w = Row(
-            mainAxisSize: MainAxisSize.max,
+          var w = Column(
             children: [
-              widget.layout != null
-                  ? Expanded(child: widget.layout!(context, v == true))
-                  : SizedBox.shrink(),
-              widget.checkBox != null
-                  ? widget.checkBox!(context, v == true)
-                  : Checkbox(
-                      value: v, onChanged: widget.isDisabled ? null : (b) {}),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  widget.layout != null
+                      ? Expanded(child: widget.layout!(context, v == true))
+                      : Container(),
+                  widget.checkBox != null
+                      ? widget.checkBox!(context, v == true)
+                      : Checkbox(
+                          activeColor: Color(0xffFF562A),
+                          value: v,
+                          onChanged: widget.isDisabled ? null : (b) {}),
+                ],
+              ),
+              Divider(),
             ],
           );
 
